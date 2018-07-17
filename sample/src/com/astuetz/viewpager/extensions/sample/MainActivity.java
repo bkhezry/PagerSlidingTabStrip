@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources()
       .getDisplayMetrics());
     pager.setPageMargin(pageMargin);
-    pager.setCurrentItem(1);
+    pager.setCurrentItem(adapter.getCount() - 1);
     changeColor(ContextCompat.getColor(getBaseContext(), R.color.green));
 
     tabs.setOnTabReselectedListener(new PagerSlidingTabStrip.OnTabReselectedListener() {
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
 
   public class MyPagerAdapter extends FragmentPagerAdapter {
 
-    private final String[] TITLES = {"Content", "Trending", "Top Paid", "Top Free", "Top Grossing", "Top New Paid",
+    private final String[] TITLES = {"Top Paid", "Top Free", "Top Grossing", "Top New Paid",
       "Top New Free", "Trending"};
 
     MyPagerAdapter(FragmentManager fm) {

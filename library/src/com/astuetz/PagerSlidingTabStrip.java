@@ -220,7 +220,9 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     if (pager.getAdapter() == null) {
       throw new IllegalStateException("ViewPager does not have adapter instance.");
     }
-
+    this.mCurrentPosition = pager.getCurrentItem();
+    scrollToChild(mCurrentPosition, 0);
+    updateSelection(mCurrentPosition);
     isCustomTabs = pager.getAdapter() instanceof CustomTabProvider;
     pager.addOnPageChangeListener(mPageListener);
     pager.getAdapter().registerDataSetObserver(mAdapterObserver);
@@ -247,7 +249,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
   }
 
   private void addTab(final int position, CharSequence title, View tabView) {
-    TextView textView = (TextView) tabView.findViewById(R.id.psts_tab_title);
+    TextView textView = tabView.findViewById(R.id.psts_tab_title);
     if (textView != null) {
       if (title != null) {
         textView.setText(title);
@@ -276,7 +278,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
       View v = mTabsContainer.getChildAt(i);
       v.setBackgroundResource(mTabBackgroundResId);
       v.setPadding(mTabPadding, v.getPaddingTop(), mTabPadding, v.getPaddingBottom());
-      TextView tab_title = (TextView) v.findViewById(R.id.psts_tab_title);
+      TextView tab_title = v.findViewById(R.id.psts_tab_title);
       if (tab_title != null) {
         tab_title.setTextColor(mTabTextColor);
         tab_title.setTypeface(mTabTextTypeface, mTabTextTypefaceStyle);
@@ -284,11 +286,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
         // setAllCaps() is only available from API 14, so the upper case is made manually if we are on a
         // pre-ICS-build
         if (isTabTextAllCaps) {
-          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            tab_title.setAllCaps(true);
-          } else {
-            tab_title.setText(tab_title.getText().toString().toUpperCase());
-          }
+          tab_title.setAllCaps(true);
         }
       }
     }
@@ -425,7 +423,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
   private void unSelect(View tab) {
     if (tab != null) {
-      TextView tab_title = (TextView) tab.findViewById(R.id.psts_tab_title);
+      TextView tab_title = tab.findViewById(R.id.psts_tab_title);
       if (tab_title != null) {
         tab_title.setSelected(false);
       }
@@ -437,7 +435,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 
   private void select(View tab) {
     if (tab != null) {
-      TextView tab_title = (TextView) tab.findViewById(R.id.psts_tab_title);
+      TextView tab_title = tab.findViewById(R.id.psts_tab_title);
       if (tab_title != null) {
         tab_title.setSelected(true);
       }
