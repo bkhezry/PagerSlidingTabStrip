@@ -62,6 +62,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
   private static final int PADDING_RIGHT_INDEX = 3;
   private final PagerAdapterObserver mAdapterObserver = new PagerAdapterObserver();
   private final PageListener mPageListener = new PageListener();
+  private ScrollListener scrollListener;
   public OnPageChangeListener mDelegatePageListener;
   private LinearLayout mTabsContainer;
   private LinearLayout.LayoutParams mTabLayoutParams;
@@ -106,6 +107,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
   private int mLastScrollX = 0;
 
   private int mTabBackgroundResId = R.drawable.psts_background_tab;
+  private boolean firstTime = true;
 
   public PagerSlidingTabStrip(Context context) {
     this(context, null);
@@ -230,6 +232,12 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     notifyDataSetChanged();
   }
 
+  public void setCurrentPosition(int position) {
+    this.mCurrentPosition = position;
+    scrollToChild(mCurrentPosition, 0);
+    updateSelection(mCurrentPosition);
+  }
+
   public void notifyDataSetChanged() {
     mTabsContainer.removeAllViews();
     mTabCount = mPager.getAdapter().getCount();
@@ -311,7 +319,15 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     if (newScrollX != mLastScrollX) {
       mLastScrollX = newScrollX;
       scrollTo(newScrollX, 0);
+      if (scrollListener != null && firstTime) {
+        firstTime = false;
+        scrollListener.scrollDone();
+      }
     }
+  }
+
+  public void setScrollListener(ScrollListener scrollListener) {
+    this.scrollListener = scrollListener;
   }
 
   public Pair<Float, Float> getIndicatorCoordinates() {
@@ -364,8 +380,6 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     }
 
     mCurrentPositionOffset = 0f;
-    scrollToChild(mCurrentPosition, 0);
-    updateSelection(mCurrentPosition);
     super.onLayout(changed, l, t, r, b);
   }
 
@@ -795,5 +809,9 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
     void setAttached(boolean attached) {
       this.attached = attached;
     }
+  }
+
+  public interface ScrollListener {
+    void scrollDone();
   }
 }

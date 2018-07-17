@@ -12,6 +12,7 @@
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:visibility="invisible"
         app:pstsTabLayoutRightSide="true" />
 
     <android.support.v4.view.ViewPager

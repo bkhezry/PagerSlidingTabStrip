@@ -80,6 +80,13 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(MainActivity.this, "Tab reselected: " + position, Toast.LENGTH_SHORT).show();
       }
     });
+    tabs.setScrollListener(new PagerSlidingTabStrip.ScrollListener() {
+      @Override
+      public void scrollDone() {
+        tabs.setVisibility(View.VISIBLE);
+        Toast.makeText(MainActivity.this, "Scrolled", Toast.LENGTH_SHORT).show();
+      }
+    });
   }
 
   @Override
