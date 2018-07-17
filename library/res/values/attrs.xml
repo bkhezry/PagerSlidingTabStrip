@@ -24,6 +24,7 @@
         <attr name="pstsTabTextAllCaps" format="boolean" />
         <attr name="pstsTabTextAlpha" format="integer" />
         <attr name="pstsTabTextFontFamily" format="string" />
+        <attr name="pstsTabLayoutRightSide" format="boolean" />
     </declare-styleable>
 
 </resources>
